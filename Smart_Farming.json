@@ -1,0 +1,87 @@
+{
+  "project_name": "Smart Farming AI Agent",
+  "platform": "LangFlow",
+  "cloud": "IBM Cloud",
+  "llm_provider": "IBM watsonx.ai",
+  "model": "Granite-4.0-8B-Instruct",
+  "flow": {
+    "input": {
+      "type": "ChatInput",
+      "name": "Farmer Input"
+    },
+    "agents": [
+      {
+        "id": "crop_agent",
+        "name": "Crop Advisory Agent",
+        "model": "Granite-4.0-8B-Instruct",
+        "prompt": "You are an agricultural crop advisor. Analyze the farmer's crop and soil information. Provide seed recommendations, fertilizer recommendations, harvest timeline, and yield improvement suggestions."
+      },
+      {
+        "id": "weather_agent",
+        "name": "Weather Agent",
+        "model": "Granite-4.0-8B-Instruct",
+        "prompt": "You are a weather and irrigation advisor. Based on weather conditions provided by the farmer, suggest irrigation schedules, warn about weather risks, and recommend farming actions."
+      },
+      {
+        "id": "pest_agent",
+        "name": "Pest & Disease Agent",
+        "model": "Granite-4.0-8B-Instruct",
+        "prompt": "You are a pest and disease expert. Based on crop symptoms identify possible disease, suggest treatment, and suggest prevention methods."
+      },
+      {
+        "id": "market_agent",
+        "name": "Market Insights Agent",
+        "model": "Granite-4.0-8B-Instruct",
+        "prompt": "You are an agricultural market analyst. Provide market demand insights, selling recommendations, cost reduction suggestions, and profit improvement strategies."
+      }
+    ],
+    "supervisor": {
+      "id": "supervisor_agent",
+      "name": "Supervisor Agent",
+      "model": "Granite-4.0-8B-Instruct",
+      "prompt": "You are Smart Farming AI. Combine outputs from Crop Agent, Weather Agent, Pest Agent, and Market Agent. Generate one final advisory report for the farmer. Use headings: Crop Advice, Weather Advice, Pest Advice, Market Advice, Final Recommendation."
+    },
+    "output": {
+      "type": "ChatOutput",
+      "name": "Farmer Advisory Report"
+    }
+  },
+  "connections": [
+    {
+      "from": "Farmer Input",
+      "to": "Crop Advisory Agent"
+    },
+    {
+      "from": "Farmer Input",
+      "to": "Weather Agent"
+    },
+    {
+      "from": "Farmer Input",
+      "to": "Pest & Disease Agent"
+    },
+    {
+      "from": "Farmer Input",
+      "to": "Market Insights Agent"
+    },
+    {
+      "from": "Crop Advisory Agent",
+      "to": "Supervisor Agent"
+    },
+    {
+      "from": "Weather Agent",
+      "to": "Supervisor Agent"
+    },
+    {
+      "from": "Pest & Disease Agent",
+      "to": "Supervisor Agent"
+    },
+    {
+      "from": "Market Insights Agent",
+      "to": "Supervisor Agent"
+    },
+    {
+      "from": "Supervisor Agent",
+      "to": "Farmer Advisory Report"
+    }
+  ]
+}
